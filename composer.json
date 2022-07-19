@@ -1,0 +1,13 @@
+{
+    "name": "ekotwidodo/olah-papi",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eko Teguh Widodo",
+            "email": "id.ekoteguh@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.4"
+    }
+}
