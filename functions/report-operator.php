@@ -21,7 +21,7 @@
     function getReportOperators($connection)
     {
         $sql = "SELECT 
-                    t1.id_operator, t1.kode_operator, t1.nama_operator, t1.jml_entri_bs, t2.jml_entri_ruta
+                    t1.id_operator, t1.kode_operator, t1.nama_operator, t1.jml_entri_bs, t2.jml_entri_ruta, t3.jml_entri_ruta_clean, (t2.jml_entri_ruta - t3.jml_entri_ruta_clean) as jml_entri_ruta_error
                 FROM 
                     (SELECT 
                         rt.kode_operator as id_operator, mo.kode_op as kode_operator, mo.realname as nama_operator, COUNT(*) as jml_entri_bs 
@@ -34,9 +34,15 @@
                     FROM 
                         SP2020C2_Validasi.dbo.C2_t_rt rt, SP2020C2_Validasi.dbo.m_operator mo 
                     WHERE rt.kode_operator=mo.id_operator
-                    GROUP BY rt.kode_operator, mo.kode_op, mo.realname)t2
+                    GROUP BY rt.kode_operator, mo.kode_op, mo.realname)t2,
+                    (SELECT 
+                        rt.kode_operator as id_operator, mo.kode_op as kode_operator, mo.realname as nama_operator, COUNT(*) as jml_entri_ruta_clean 
+                    FROM 
+                        SP2020C2_Validasi.dbo.C2_t_rt rt, SP2020C2_Validasi.dbo.m_operator mo 
+                    WHERE rt.kode_operator=mo.id_operator AND rt.status_dok='C'
+                    GROUP BY rt.kode_operator, mo.kode_op, mo.realname)t3
                 WHERE 
-                    t1.id_operator=t2.id_operator
+                    t1.id_operator=t2.id_operator AND t1.id_operator=t3.id_operator
                 ORDER BY t1.kode_operator";
         $results = $connection->get_rows_v2($sql);
         return $results;

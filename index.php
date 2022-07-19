@@ -71,6 +71,8 @@ $c2->close();
                                         <th class="text-center">Nama</th>
                                         <th class="text-center">Jumlah BS Selesai Olah</th>
                                         <th class="text-center">Jumlah Ruta Selesai Olah</th>
+                                        <th class="text-center">Jumlah Ruta (Clean)</th>
+                                        <th class="text-center">Jumlah Ruta (Error)</th>
                                         <th class="text-center">Target Total</th>
                                 </tr>
                         </thead>
@@ -87,6 +89,8 @@ $c2->close();
                                         <td><?php echo $row['nama_operator'] ?></td>
                                         <td class="text-center"><?php echo $row['jml_entri_bs'] ?> BS</td>
                                         <td class="text-center"><?php echo $row['jml_entri_ruta'] ?> Ruta</td>
+                                        <td class="text-center"><?php echo $row['jml_entri_ruta_clean'] ?> Ruta</td>
+                                        <td class="text-center"><?php echo $row['jml_entri_ruta_error'] ?> Ruta</td>
                                         <td>Asumsi 30BS [<?php echo round($row['jml_entri_bs']/30*100, 2)?>%]</td>
                                 </tr> 
                                         <?php 
