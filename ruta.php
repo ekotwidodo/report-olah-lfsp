@@ -46,14 +46,8 @@ $c7->close();
 </head>
 
 <body>
+        <?php include './includes/navbar.php' ?>
         <div class="container">
-                <div class="row">
-                        <div class="col m-3 ml-auto">
-                                <a href="index.php" class="btn btn-success">Lihat Operator</a>
-                                <a href="#" class="btn btn-danger">Lihat Rekap Tipe Kesalahan</a>
-                                <a href="#" class="btn btn-warning">Evaluasi Data</a>
-                        </div>
-                </div>
                 <div class="row">
                         <h1 class="text-center">Report Ruta Hasil Pengolahan C2 dan V</h1>
                         <h5 class="text-center">Kondisi: <?php echo date('d-m-Y')?></h5>
