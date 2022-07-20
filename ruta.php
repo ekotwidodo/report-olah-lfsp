@@ -1,12 +1,10 @@
 <?php
 
-require './vendor/autoload.php';
+include './autoload.php';
 include './config/database.php';
+include './config/database2.php';
 include './functions/report-ruta.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__); //Notice the Namespace and Class name
-$dotenv->load();
-
+include './functions/common.php';
 
 $c1 = new Database();
 $r1 = findAll($c1);
@@ -89,6 +87,8 @@ $c7->close();
                                         <th class="text-center">Operator</th>
                                         <th class="text-center">Waktu Entri</th>
                                         <th class="text-center">Status Dokumen</th>
+                                        <th class="text-center">Pengawas</th>
+                                        <th class="text-center">Aksi</th>
                                 </tr>
                         </thead>
                         <tbody>
@@ -105,6 +105,25 @@ $c7->close();
                                         <td><?php echo $row['nama_operator'] ?></td>
                                         <td class="text-center"><?php echo $row['waktu_entri'] ?></td>
                                         <td class="text-center"><?php echo $row['status_dokumen'] ?></td>
+                                        <td><?php echo $row['nama_operator'] != '' ? getPengawas($row['nama_operator']) : '' ?></td>
+                                        <td>
+                                                <?php 
+                                                $conn = new Database2();
+                                                $status = count(getStatusPemeriksaan($conn, $row['idbs'], $row['nus']));
+                                                $conn->close();
+                                                if ($status > 0) {
+                                                        echo "<button class='btn btn-sm btn-secondary' disabled>PERIKSA</button>";
+                                                } else {
+                                                        $pengawas = $row['nama_operator'] != '' ? getPengawas($row['nama_operator']) : '';
+                                                        echo "<a href='tambah-pemeriksaan.php?idbs=".$row['idbs']."&nus=". $row['nus']."&nama_krt=".$row['nama_krt']."&operator=".$row['nama_operator']."&pengawas=".$pengawas."' class='btn btn-sm btn-success'>PERIKSA</a>";
+                                                }
+                                                
+                                                // if (in_array((int) $row['nus'], [3, 9, 14])) {
+                                                        
+                                                // }
+                                                                
+                                                ?>
+                                        </td>
                                 </tr> 
                                         <?php 
                                         $i++;
@@ -112,6 +131,21 @@ $c7->close();
                                 <?php } ?>
                         </tbody>
                 </table>
+                <!-- Modal -->
+                <div class="modal fade" id="laporPemeriksaan" tabindex="-1" role="dialog" aria-labelledby="laporPemeriksaan" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                        <div class="modal-header">
+                                                <h5 class="modal-title">Laporan Hasil Pemeriksaan</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                        </div>
+                                
+                                </div>
+                        </div>
+                </div>
+                        <!-- End Modal-->
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>

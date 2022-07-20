@@ -1,11 +1,7 @@
 <?php
-
-require './vendor/autoload.php';
+include './autoload.php';
 include './config/database.php';
 include './functions/report-operator.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__); //Notice the Namespace and Class name
-$dotenv->load();
 
 $c1 = new Database();
 $r1 = getReportOperators($c1);
@@ -34,7 +30,7 @@ $c2->close();
         <div class="container">
                 <div class="row">
                         <h1 class="text-center">Report Petugas Pengolahan C2 dan V</h1>
-                        <h5 class="text-center">Kondisi: <?php echo date('d-m-Y')?> (<i>passing BS minimal 55%</i>)</h5>
+                        <h5 class="text-center">Kondisi: <?php echo date('d-m-Y')?> (<i>passing BS minimal 65%</i>)</h5>
                         <hr/>
                 </div>
                 <div class="row">
@@ -75,9 +71,15 @@ $c2->close();
                                 if (count($r1) > 0) {
                                         $i = 0;
                                         foreach ($r1 as $list => $row) {
-                                
+                                                $color = '';
+                                                if (round($row['jml_entri_bs']/30*100, 2) < 65) {
+                                                        $color = 'style="background-color: #FFB4B4"';
+                                                }
+                                                if (round($row['jml_entri_bs']/30*100, 2) >= 100) {
+                                                        $color = 'style="background-color: #3CCF4E"';
+                                                }
                                 ?>   
-                                <tr <?php echo (round($row['jml_entri_bs']/30*100, 2) < 55) ? 'style="background-color: #FFB4B4"' : '' ?> >
+                                <tr <?php echo $color ?> >
                                         <td class="text-center"><?php echo ($i + 1) ?></td>
                                         <td class="text-center"><?php echo $row['kode_operator'] ?></td>
                                         <td><?php echo $row['nama_operator'] ?></td>
