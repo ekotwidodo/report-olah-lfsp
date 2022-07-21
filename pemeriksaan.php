@@ -43,7 +43,7 @@ $c1->close();
                                         <th class="text-center">Operator</th>
                                         <th class="text-center">Waktu Pemeriksaan</th>
                                         <th class="text-center">Pemeriksa</th>
-                                        <th class="text-center">Aksi</th>
+                                        <th class="text-center" width=80>Aksi</th>
                                         <th class="text-center">Ruta Sampel Hasil Pemeriksaan</th>
                                 </tr>
                         </thead>
@@ -73,20 +73,32 @@ $c1->close();
                                         $conn2 = new Database2();
                                         $nus_krt = getNUSKRTPemeriksaan($conn2, $row['idbs']);
                                         $conn2->close();
+
+                                        $conn4 = new Database2();
+                                        $statusV = getPemeriksaanV($conn4, $row['idbs']);
+                                        $conn4->close();
                                     ?>
                                     <td class="text-center"><?php 
                                         echo $pemeriksaans != NULL ? $pemeriksaans[0]['waktu_pemeriksaan'] : '';
                                     ?></td>
                                     <td class="text-center"><?php echo $row['nama_operator'] != '' ? getPengawas($row['nama_operator']) : '' ?></td>
-                                    <td class="text-center">
+                                    <td class="text-center d-flex flex-row justify-content-around">
                                     <?php 
                                         if ($status == 3) {
-                                            echo "<button class='btn btn-sm btn-secondary' disabled>PERIKSA</button>";
+                                            echo "<button class='btn btn-sm btn-secondary' disabled>C2</button>";
                                         } else {
                                             $pengawas = $row['nama_operator'] != '' ? getPengawas($row['nama_operator']) : '';
                                             $nobox = $no_box != NULL ? $no_box[0]['no_box'] : '';
-                                            echo "<a href='form-pemeriksaan.php?idbs=".$row['idbs']."&operator=".$row['nama_operator']."&pengawas=".$pengawas."&no_box=$nobox' class='btn btn-sm btn-success'>PERIKSA</a>";
+                                            echo "<a href='form-pemeriksaan.php?idbs=".$row['idbs']."&operator=".$row['nama_operator']."&pengawas=".$pengawas."&no_box=$nobox' class='btn btn-sm btn-success'>C2</a>";
                                         }
+                                
+                                        if (count($statusV) == 1) {
+                                                echo "<button class='btn btn-sm btn-secondary' disabled>V</button>";
+                                            } else {
+                                                $pengawas = $row['nama_operator'] != '' ? getPengawas($row['nama_operator']) : '';
+                                                $nobox = $no_box != NULL ? $no_box[0]['no_box'] : '';
+                                                echo "<a href='form-pemeriksaan-v.php?idbs=".$row['idbs']."&operator=".$row['nama_operator']."&pengawas=".$pengawas."&no_box=$nobox' class='btn btn-sm btn-danger'>V</a>";
+                                            }
                                     ?>
                                     </td>
                                     <td>

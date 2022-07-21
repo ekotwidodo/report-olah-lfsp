@@ -59,6 +59,27 @@
         return $results;
     }
 
+    function getPemeriksaanV($connection, $idbs)
+    {
+        $sql = "SELECT * FROM hasil_pemeriksaan_v WHERE idbs='$idbs'";
+        $results = $connection->get_rows_v2($sql);
+        return $results;
+    }
+
+    function createPemeriksaanV($connection, $data)
+    {
+        $idbs = $data['idbs'];
+        $no_box = $data['no_box'];
+        $operator = $data['operator'];
+        $temuan = $data['temuan'];
+        $pengawas = $data['pengawas'];
+
+        $sql = "INSERT INTO hasil_pemeriksaan_v(idbs, no_box, operator, temuan, pengawas, waktu_pemeriksaan) VALUES ('$idbs', $no_box, '$operator', '$temuan', '$pengawas', NOW())";
+
+        $results = $connection->get_rows_v2($sql);
+        return $results;
+    }
+
     function getNUSKRTPemeriksaan($connection, $idbs)
     {
         $sql = "SELECT nus,nama_krt FROM hasil_pengawasan WHERE idbs='$idbs'";
