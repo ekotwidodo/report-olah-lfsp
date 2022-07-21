@@ -52,9 +52,23 @@
         return $results;
     }
 
-    function getStatusPemeriksaan($connection, $idbs, $nus)
+    function getStatusPemeriksaan($connection, $idbs)
     {
-        $sql = "SELECT * FROM hasil_pengawasan WHERE idbs='$idbs' AND nus=$nus";
+        $sql = "SELECT * FROM hasil_pengawasan WHERE idbs='$idbs'";
+        $results = $connection->get_rows_v2($sql);
+        return $results;
+    }
+
+    function getNUSKRTPemeriksaan($connection, $idbs)
+    {
+        $sql = "SELECT nus,nama_krt FROM hasil_pengawasan WHERE idbs='$idbs'";
+        $results = $connection->get_rows_v2($sql);
+        return $results;
+    }
+
+    function getNomorBoxBesar($connection, $idbs)
+    {
+        $sql = "SELECT no_box FROM penerimaan_dokumen WHERE idbs='$idbs'";
         $results = $connection->get_rows_v2($sql);
         return $results;
     }

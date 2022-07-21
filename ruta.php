@@ -2,9 +2,7 @@
 
 include './autoload.php';
 include './config/database.php';
-include './config/database2.php';
 include './functions/report-ruta.php';
-include './functions/common.php';
 
 $c1 = new Database();
 $r1 = findAll($c1);
@@ -87,8 +85,6 @@ $c7->close();
                                         <th class="text-center">Operator</th>
                                         <th class="text-center">Waktu Entri</th>
                                         <th class="text-center">Status Dokumen</th>
-                                        <th class="text-center">Pengawas</th>
-                                        <th class="text-center">Aksi</th>
                                 </tr>
                         </thead>
                         <tbody>
@@ -105,25 +101,6 @@ $c7->close();
                                         <td><?php echo $row['nama_operator'] ?></td>
                                         <td class="text-center"><?php echo $row['waktu_entri'] ?></td>
                                         <td class="text-center"><?php echo $row['status_dokumen'] ?></td>
-                                        <td><?php echo $row['nama_operator'] != '' ? getPengawas($row['nama_operator']) : '' ?></td>
-                                        <td>
-                                                <?php 
-                                                $conn = new Database2();
-                                                $status = count(getStatusPemeriksaan($conn, $row['idbs'], $row['nus']));
-                                                $conn->close();
-                                                if ($status > 0) {
-                                                        echo "<button class='btn btn-sm btn-secondary' disabled>PERIKSA</button>";
-                                                } else {
-                                                        $pengawas = $row['nama_operator'] != '' ? getPengawas($row['nama_operator']) : '';
-                                                        echo "<a href='tambah-pemeriksaan.php?idbs=".$row['idbs']."&nus=". $row['nus']."&nama_krt=".$row['nama_krt']."&operator=".$row['nama_operator']."&pengawas=".$pengawas."' class='btn btn-sm btn-success'>PERIKSA</a>";
-                                                }
-                                                
-                                                // if (in_array((int) $row['nus'], [3, 9, 14])) {
-                                                        
-                                                // }
-                                                                
-                                                ?>
-                                        </td>
                                 </tr> 
                                         <?php 
                                         $i++;
