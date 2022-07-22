@@ -32,8 +32,79 @@ $c1->close();
                         <h5 class="text-center">Kondisi: <?php echo date('d-m-Y')?></h5>
                         <hr/>
                 </div>
+                <div class="row">
+                        <h6>Progress Pemeriksaan Oleh Pengawas</h6>
+                        <?php 
+                                $x1 = new Database2();
+                                $pemeriksaanC2ByNama = getReportPemeriksaanC2($x1);
+                                $x1->close();
+
+                                $x2 = new Database2();
+                                $pemeriksaanVByNama = getReportPemeriksaanV($x2);
+                                $x2->close();
+                        
+                        ?>
+                        <div class="col">
+                                <ul>
+                                        <li>
+                                                <b>Karom:</b> 
+                                                </br>C2=<?php echo countResultByPengawas($pemeriksaanC2ByNama, 'Karom') ?> dan 
+                                                      V=<?php echo countResultByPengawas($pemeriksaanVByNama, 'Karom') ?>
+                                        </li>
+                                        <li>
+                                                <b>Bayu:</b> 
+                                                </br>C2=<?php echo countResultByPengawas($pemeriksaanC2ByNama, 'Bayu') ?> dan 
+                                                      V=<?php echo countResultByPengawas($pemeriksaanVByNama, 'Bayu') ?>
+                                        </li>
+                                        <li>
+                                                <b>Jua:</b> 
+                                                </br>C2=<?php echo countResultByPengawas($pemeriksaanC2ByNama, 'Jua') ?> dan 
+                                                      V=<?php echo countResultByPengawas($pemeriksaanVByNama, 'Jua') ?>
+                                        </li>
+                                </ul>
+                        </div>
+                        <div class="col">
+                                <ul>
+                                        <li>
+                                                <b>Dewi:</b> 
+                                                </br>C2=<?php echo countResultByPengawas($pemeriksaanC2ByNama, 'Dewi') ?> dan 
+                                                      V=<?php echo countResultByPengawas($pemeriksaanVByNama, 'Dewi') ?>
+                                        </li>
+                                        <li>
+                                                <b>Emma:</b> 
+                                                </br>C2=<?php echo countResultByPengawas($pemeriksaanC2ByNama, 'Emma') ?> dan 
+                                                      V=<?php echo countResultByPengawas($pemeriksaanVByNama, 'Emma') ?>
+                                        </li>
+                                        <li>
+                                                <b>Mudjono:</b> 
+                                                </br>C2=<?php echo countResultByPengawas($pemeriksaanC2ByNama, 'Mudjono') ?> dan 
+                                                      V=<?php echo countResultByPengawas($pemeriksaanVByNama, 'Mudjono') ?>
+                                        </li>
+                                </ul>
+                        </div>
+                        <div class="col">
+                                <ul>
+                                        <li>
+                                                <b>Mukhlis:</b> 
+                                                </br>C2=<?php echo countResultByPengawas($pemeriksaanC2ByNama, 'Mukhlis') ?> dan 
+                                                      V=<?php echo countResultByPengawas($pemeriksaanVByNama, 'Mukhlis') ?>
+                                        </li>
+                                        <li>
+                                                <b>Poniran:</b> 
+                                                </br>C2=<?php echo countResultByPengawas($pemeriksaanC2ByNama, 'Poniran') ?> dan 
+                                                      V=<?php echo countResultByPengawas($pemeriksaanVByNama, 'Poniran') ?>
+                                        </li>
+                                        <li>
+                                                <b>Teguh:</b> 
+                                                </br>C2=<?php echo countResultByPengawas($pemeriksaanC2ByNama, 'Teguh') ?> dan 
+                                                      V=<?php echo countResultByPengawas($pemeriksaanVByNama, 'Teguh') ?>
+                                        </li>
+                                </ul>
+                        </div>
+                </div>
         </div>
         <div class="container">
+                <hr/>
                 <table id="reportPemeriksaan" class="display" style="width:100%">
                         <thead>
                                 <tr>
@@ -81,23 +152,21 @@ $c1->close();
                                     <td class="text-center"><?php 
                                         echo $pemeriksaans != NULL ? $pemeriksaans[0]['waktu_pemeriksaan'] : '';
                                     ?></td>
-                                    <td class="text-center"><?php echo $row['nama_operator'] != '' ? getPengawas($row['nama_operator']) : '' ?></td>
+                                    <td class="text-center"><?php echo $pemeriksaans != NULL ? $pemeriksaans[0]['pengawas'] : '';?></td>
                                     <td class="text-center d-flex flex-row justify-content-around">
                                     <?php 
                                         if ($status == 3) {
                                             echo "<button class='btn btn-sm btn-secondary' disabled>C2</button>";
                                         } else {
-                                            $pengawas = $row['nama_operator'] != '' ? getPengawas($row['nama_operator']) : '';
                                             $nobox = $no_box != NULL ? $no_box[0]['no_box'] : '';
-                                            echo "<a href='form-pemeriksaan.php?idbs=".$row['idbs']."&operator=".$row['nama_operator']."&pengawas=".$pengawas."&no_box=$nobox' class='btn btn-sm btn-success'>C2</a>";
+                                            echo "<a href='form-pemeriksaan-c2.php?idbs=".$row['idbs']."&operator=".$row['nama_operator']."&no_box=$nobox' class='btn btn-sm btn-success'>C2</a>";
                                         }
                                 
                                         if (count($statusV) == 1) {
                                                 echo "<button class='btn btn-sm btn-secondary' disabled>V</button>";
                                             } else {
-                                                $pengawas = $row['nama_operator'] != '' ? getPengawas($row['nama_operator']) : '';
                                                 $nobox = $no_box != NULL ? $no_box[0]['no_box'] : '';
-                                                echo "<a href='form-pemeriksaan-v.php?idbs=".$row['idbs']."&operator=".$row['nama_operator']."&pengawas=".$pengawas."&no_box=$nobox' class='btn btn-sm btn-danger'>V</a>";
+                                                echo "<a href='form-pemeriksaan-v.php?idbs=".$row['idbs']."&operator=".$row['nama_operator']."&no_box=$nobox' class='btn btn-sm btn-danger'>V</a>";
                                             }
                                     ?>
                                     </td>

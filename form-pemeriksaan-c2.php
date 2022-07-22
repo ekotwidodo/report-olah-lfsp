@@ -33,8 +33,6 @@ include './config/database2.php';
                         $idbs = isset($_GET['idbs']) ? $_GET['idbs'] : '';
                         $no_box = isset($_GET['no_box']) ? $_GET['no_box'] : '';
                         $operator = isset($_GET['operator']) ? $_GET['operator'] : '';
-                        $pengawas = isset($_GET['pengawas']) ? $_GET['pengawas'] : '';
-                        $operator_pemeriksa = $operator . ' # ' . $pengawas;
                     ?>
                     <form id="form-pemeriksaan" action="insert.php" method="post">
                         <div class="mt-3 mb-3" id="error-message"></div>
@@ -73,8 +71,23 @@ include './config/database2.php';
                             <input type="text" id="nama_krt" name="nama_krt" class="form-control">
                         </div>
                         <div class="mt-3 mb-3">
-                            <label for="operator_pemeriksa" class="form-label">Operator # Pemeriksa</label>
-                            <input type="text" id="operator_pemeriksa" name="operator_pemeriksa" class="form-control" value="<?php echo $operator_pemeriksa;?>" disabled>
+                            <label for="operator" class="form-label">Operator</label>
+                            <input type="text" id="operator" name="operator" class="form-control" value="<?php echo $operator;?>" disabled>
+                        </div>
+                        <div class="mt-3 mb-3">
+                            <label for="pemeriksa" class="form-label">Pemeriksa</label>
+                            <select id="pemeriksa" name="pemeriksa" class="form-control">
+                                <option value="0">- Pilih Pemeriksa -</option>
+                                <option value="1">Karom</option>
+                                <option value="2">Bayu</option>
+                                <option value="3">Jua</option>
+                                <option value="4">Dewi</option>
+                                <option value="5">Emma</option>
+                                <option value="6">Mudjono</option>
+                                <option value="7">Mukhlis</option>
+                                <option value="8">Poniran</option>
+                                <option value="9">Teguh</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="temuan" class="form-label">Hasil Pemeriksaan</label>
@@ -99,9 +112,8 @@ include './config/database2.php';
                 e.preventDefault()
 
                 let idbs = $('#idbs').val()
-                let operator_pemeriksa = $('#operator_pemeriksa').val()
-                let operator = operator_pemeriksa.split(' # ')[0]
-                let pemeriksa = operator_pemeriksa.split(' # ')[1]
+                let operator = $('#operator').val()
+                let pemeriksa = $('#pemeriksa :selected')
                 let nus = $('#nus').val()
                 let nama_krt = $('#nama_krt').val()
                 let no_box = $('#no_box').val()
@@ -113,6 +125,9 @@ include './config/database2.php';
                 }
                 if (nus=='0') {
                     errors.push('Nomor Sampel belum dipilih')
+                }
+                if (pemeriksa.val()=='0') {
+                    errors.push('Pemeriksa belum dipilih')
                 }
                 if (nama_krt=='') {
                     errors.push('Nama KRT Besar masih kosong')
@@ -132,12 +147,12 @@ include './config/database2.php';
 
                 } else {
                     let data = {
-                        idbs, nus, nama_krt, operator, pemeriksa, no_box, temuan
+                        idbs, nus, nama_krt, operator, pemeriksa: pemeriksa.text(), no_box, temuan
                     }
 
                     $.ajax({
                         type: 'POST',
-                        url: 'insert-pemeriksaan.php',
+                        url: 'insert-pemeriksaan-c2.php',
                         data: data,
                         dataType: 'json',
                         encode: true,

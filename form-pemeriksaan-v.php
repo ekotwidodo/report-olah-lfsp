@@ -33,8 +33,6 @@ include './config/database2.php';
                         $idbs = isset($_GET['idbs']) ? $_GET['idbs'] : '';
                         $no_box = isset($_GET['no_box']) ? $_GET['no_box'] : '';
                         $operator = isset($_GET['operator']) ? $_GET['operator'] : '';
-                        $pengawas = isset($_GET['pengawas']) ? $_GET['pengawas'] : '';
-                        $operator_pemeriksa = $operator . ' # ' . $pengawas;
                     ?>
                     <form id="form-pemeriksaan" action="insert.php" method="post">
                         <div class="mt-3 mb-3" id="error-message"></div>
@@ -47,8 +45,23 @@ include './config/database2.php';
                             <input type="text" id="idbs" name="idbs" class="form-control" value="<?php echo $idbs; ?>" disabled>
                         </div>
                         <div class="mt-3 mb-3">
-                            <label for="operator_pemeriksa" class="form-label">Operator # Pemeriksa</label>
-                            <input type="text" id="operator_pemeriksa" name="operator_pemeriksa" class="form-control" value="<?php echo $operator_pemeriksa;?>" disabled>
+                            <label for="operator" class="form-label">Operator</label>
+                            <input type="text" id="operator" name="operator" class="form-control" value="<?php echo $operator;?>" disabled>
+                        </div>
+                        <div class="mt-3 mb-3">
+                            <label for="pemeriksa" class="form-label">Pemeriksa</label>
+                            <select id="pemeriksa" name="pemeriksa" class="form-control">
+                                <option value="0">- Pilih Pemeriksa -</option>
+                                <option value="1">Karom</option>
+                                <option value="2">Bayu</option>
+                                <option value="3">Jua</option>
+                                <option value="4">Dewi</option>
+                                <option value="5">Emma</option>
+                                <option value="6">Mudjono</option>
+                                <option value="7">Mukhlis</option>
+                                <option value="8">Poniran</option>
+                                <option value="9">Teguh</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="temuan" class="form-label">Hasil Pemeriksaan V</label>
@@ -73,13 +86,15 @@ include './config/database2.php';
                 e.preventDefault()
 
                 let idbs = $('#idbs').val()
-                let operator_pemeriksa = $('#operator_pemeriksa').val()
-                let operator = operator_pemeriksa.split(' # ')[0]
-                let pemeriksa = operator_pemeriksa.split(' # ')[1]
+                let operator = $('#operator').val()
+                let pemeriksa = $('#pemeriksa :selected')
                 let no_box = $('#no_box').val()
                 let temuan = $('#temuan').val()
                 let errors = []
 
+                if (pemeriksa.val()=='0') {
+                    errors.push('Pemeriksa belum dipilih')
+                }
                 if (no_box=='') {
                     errors.push('Nomor Box Besar masih kosong')
                 }           
@@ -98,7 +113,7 @@ include './config/database2.php';
 
                 } else {
                     let data = {
-                        idbs, operator, pemeriksa, no_box, temuan
+                        idbs, operator, pemeriksa: pemeriksa.text(), no_box, temuan
                     }
 
                     $.ajax({

@@ -46,7 +46,7 @@
         $temuan = $data['temuan'];
         $pengawas = $data['pengawas'];
 
-        $sql = "INSERT INTO hasil_pengawasan (idbs, nus, no_box, nama_krt, operator, temuan, pengawas, waktu_pemeriksaan) VALUES ('$idbs', $nus, $no_box, '$nama_krt', '$operator', '$temuan', '$pengawas', NOW())";
+        $sql = "INSERT INTO hasil_pemeriksaan_c2(idbs, nus, no_box, nama_krt, operator, temuan, pengawas, waktu_pemeriksaan) VALUES ('$idbs', $nus, $no_box, '$nama_krt', '$operator', '$temuan', '$pengawas', NOW())";
 
         $results = $connection->get_rows_v2($sql);
         return $results;
@@ -54,7 +54,7 @@
 
     function getStatusPemeriksaan($connection, $idbs)
     {
-        $sql = "SELECT * FROM hasil_pengawasan WHERE idbs='$idbs'";
+        $sql = "SELECT * FROM hasil_pemeriksaan_c2 WHERE idbs='$idbs'";
         $results = $connection->get_rows_v2($sql);
         return $results;
     }
@@ -82,7 +82,21 @@
 
     function getNUSKRTPemeriksaan($connection, $idbs)
     {
-        $sql = "SELECT nus,nama_krt FROM hasil_pengawasan WHERE idbs='$idbs'";
+        $sql = "SELECT nus,nama_krt FROM hasil_pemeriksaan_c2 WHERE idbs='$idbs'";
+        $results = $connection->get_rows_v2($sql);
+        return $results;
+    }
+
+    function getReportPemeriksaanC2($connection)
+    {
+        $sql = "SELECT * FROM hasil_pemeriksaan_c2";
+        $results = $connection->get_rows_v2($sql);
+        return $results;
+    }
+
+    function getReportPemeriksaanV($connection)
+    {
+        $sql = "SELECT * FROM hasil_pemeriksaan_v";
         $results = $connection->get_rows_v2($sql);
         return $results;
     }
@@ -110,6 +124,17 @@
             $idx++;
         }
 
+        return $result;
+    }
+
+    function countResultByPengawas($data, $pengawas)
+    {
+        $result = 0;
+        foreach ($data as $row => $value) {
+            if ($value['pengawas'] == $pengawas) {
+                $result += 1;
+            }
+        }
         return $result;
     }
 ?>

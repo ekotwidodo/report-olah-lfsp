@@ -13,7 +13,7 @@
                     <a class="nav-link" href="ruta.php">Rumah Tangga</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pemeriksaan.php">Pemeriksaan</a>
+                    <a class="nav-link" href="pemeriksaan.php">Pemeriksaan (IPDS)</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="kesalahan.php">Kesalahan</a>
