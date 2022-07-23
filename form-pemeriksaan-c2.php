@@ -1,6 +1,7 @@
 <?php
 include './autoload.php';
 include './config/database2.php';
+include './functions/common.php';
 
 ?>
 
@@ -20,20 +21,24 @@ include './config/database2.php';
 
 <body>
     <?php include './includes/navbar.php' ?>
+    <?php 
+        $idbs = isset($_GET['idbs']) ? $_GET['idbs'] : '';
+        $no_box = isset($_GET['no_box']) ? $_GET['no_box'] : '';
+        $operator = isset($_GET['operator']) ? $_GET['operator'] : '';
+
+        $conn = new Database2();
+        $ruta = getStatusPemeriksaan($conn, $idbs);
+    ?>
     <div class="container">
         <div class="row">
             <h1 class="text-center">Laporan Hasil Pemeriksaan C2 dan V</h1>
             <hr />
+            <p>Jumlah Ruta selesai pemeriksaan di idbs <?php echo $idbs ?> : <span id="ruta" style="color:red;font-weight:bold;"><?php echo count($ruta); ?></span> Ruta</p>
         </div>
         <div class="row">
             <div class="card">
                 <div class="card-body">
                     <h3>Form Pemeriksaan</h3>
-                    <?php 
-                        $idbs = isset($_GET['idbs']) ? $_GET['idbs'] : '';
-                        $no_box = isset($_GET['no_box']) ? $_GET['no_box'] : '';
-                        $operator = isset($_GET['operator']) ? $_GET['operator'] : '';
-                    ?>
                     <form id="form-pemeriksaan" action="insert.php" method="post">
                         <div class="mt-3 mb-3" id="error-message"></div>
                         <div class="mt-3 mb-3">
@@ -118,6 +123,8 @@ include './config/database2.php';
                 let nama_krt = $('#nama_krt').val()
                 let no_box = $('#no_box').val()
                 let temuan = $('#temuan').val()
+                let jumlah_ruta = $('#ruta').text()
+                console.log(jumlah_ruta)
                 let errors = []
 
                 if (no_box=='') {
@@ -165,7 +172,11 @@ include './config/database2.php';
                                         text: data.message
                                     }
                                 ).then(() => {
-                                    window.location.href = 'pemeriksaan.php'
+                                    if (jumlah_ruta !== '3') {
+                                        window.location.href = `form-pemeriksaan-c2.php?idbs=${idbs}&operator=${operator}&no_box=${no_box}`
+                                    } else {
+                                        window.location.href = 'pemeriksaan.php'
+                                    }
                                 });
                             }
                         },
@@ -178,7 +189,11 @@ include './config/database2.php';
                                         text: data.message
                                     }
                                 ).then(() => {
-                                    window.location.href = `pemeriksaan.php`
+                                    if (jumlah_ruta !== '3') {
+                                        window.location.href = `form-pemeriksaan-c2.php?idbs=${idbs}&operator=${operator}&no_box=${no_box}`
+                                    } else {
+                                        window.location.href = 'pemeriksaan.php'
+                                    }
                                 });
                             }
                         }
