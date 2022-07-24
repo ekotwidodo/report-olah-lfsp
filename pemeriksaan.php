@@ -30,6 +30,9 @@ $c1->close();
                 <div class="row">
                         <h1 class="text-center">Report Pemeriksaan Hasil Pengolahan C2 dan V</h1>
                         <h5 class="text-center">Kondisi: <?php echo date('d-m-Y')?></h5>
+                        <div class="col-md-auto mb-2">
+                                <a href="detil-pemeriksaan.php" class="btn btn-warning" target="_blank">Lihat Hasil Pemeriksaan</a>
+                        </div>
                         <hr/>
                 </div>
                 <div class="row">

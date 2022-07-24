@@ -27,10 +27,15 @@ try {
     $conn = new Database2();
     $result = createPemeriksaan($conn, $data);
     $conn->close();
+
+    $conn2 = new Database2();
+    $ruta = getStatusPemeriksaan($conn2, $idbs);
+    $conn2->close();
     echo json_encode(
         array(
             'status' => TRUE,
-            'message' => 'Data berhasil disimpan!'
+            'message' => 'Data berhasil disimpan!',
+            'ruta' => count($ruta)
         )
     );
 } catch (Exception $e) {

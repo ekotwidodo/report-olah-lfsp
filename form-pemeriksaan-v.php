@@ -22,13 +22,13 @@ include './config/database2.php';
     <?php include './includes/navbar.php' ?>
     <div class="container">
         <div class="row">
-            <h1 class="text-center">Laporan Hasil Pemeriksaan C2 dan V</h1>
+            <h1 class="text-center">Laporan Hasil Pemeriksaan V</h1>
             <hr />
         </div>
         <div class="row">
             <div class="card">
                 <div class="card-body">
-                    <h3>Form Pemeriksaan</h3>
+                    <h3>Form Pemeriksaan V</h3>
                     <?php 
                         $idbs = isset($_GET['idbs']) ? $_GET['idbs'] : '';
                         $no_box = isset($_GET['no_box']) ? $_GET['no_box'] : '';
@@ -38,7 +38,7 @@ include './config/database2.php';
                         <div class="mt-3 mb-3" id="error-message"></div>
                         <div class="mt-3 mb-3">
                             <label for="no_box" class="form-label">Nomor Box Besar</label>
-                            <input type="text" id="no_box" name="no_box" class="form-control" value="<?php echo $no_box;?>" disabled>
+                            <input type="text" id="no_box" name="no_box" class="form-control" value="<?php echo $no_box;?>">
                         </div>
                         <div class="mt-3 mb-3">
                             <label for="idbs" class="form-label">ID Wilayah (idbs) </label>
