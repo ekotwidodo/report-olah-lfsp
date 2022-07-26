@@ -30,7 +30,7 @@ $c2->close();
         <div class="container">
                 <div class="row">
                         <h1 class="text-center">Report Petugas Pengolahan C2 dan V</h1>
-                        <h5 class="text-center">Kondisi: <?php echo date('d-m-Y')?> (<i>passing BS minimal 95%</i>)</h5>
+                        <h5 class="text-center">Kondisi: <?php echo date('d-m-Y')?> (<i>passing BS 100%</i>)</h5>
                         <hr/>
                 </div>
                 <div class="row">
@@ -87,7 +87,7 @@ $c2->close();
                                         <td class="text-center"><?php echo $row['jml_entri_ruta'] ?> Ruta</td>
                                         <td class="text-center"><?php echo $row['jml_entri_ruta_clean'] ?> Ruta</td>
                                         <td class="text-center"><?php echo $row['jml_entri_ruta_error'] ?> Ruta</td>
-                                        <td>Asumsi 30BS [<?php echo round($row['jml_entri_bs']/30*100, 2)?>%]</td>
+                                        <td>Asumsi 30BS (480 Ruta) [<?php echo round($row['jml_entri_ruta']/480*100, 2)?>%]</td>
                                 </tr> 
                                         <?php 
                                         $i++;

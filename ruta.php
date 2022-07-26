@@ -3,6 +3,8 @@
 include './autoload.php';
 include './config/database.php';
 include './functions/report-ruta.php';
+include './functions/common.php';
+include './config/database2.php';
 
 $c1 = new Database();
 $r1 = findAll($c1);
@@ -79,6 +81,7 @@ $c7->close();
                         <thead>
                                 <tr>
                                         <th class="text-center">No.</th>
+                                        <th class="text-center">No.Box Besar</th>
                                         <th class="text-center">IDBS</th>
                                         <th class="text-center">NUS</th>
                                         <th class="text-center">Nama KRT</th>
@@ -91,10 +94,25 @@ $c7->close();
                                 <?php if (count($r1) > 0) {
                                         $i = 0;
                                         foreach ($r1 as $list => $row) {
-                                
+                                                
+                                                $status_dok = '';
+                                                if ($row['status_dokumen']==NULL || $row['status_dokumen']==''){
+                                                        $status_dok = 'style="background-color: #FCE2DB"';
+                                                } else if ($row['status_dokumen']=='E') {
+                                                        $status_dok = 'style="background-color: #D61C4E"';
+                                                } else {
+                                                        $status_dok = '';
+                                                }
                                 ?>   
-                                <tr <?php echo ($row['status_dokumen']==NULL || $row['status_dokumen']=='') ? 'style="background-color: #FFB4B4"' : '' ?> >
+                                <tr <?php echo $status_dok; ?> >
                                         <td class="text-center"><?php echo ($i + 1) ?></td>
+                                        <td class="text-center">
+                                        <?php 
+                                        $conn3 = new Database2();
+                                        $no_box = getNomorBoxBesar($conn3, $row['idbs']);
+                                        $conn3->close();
+                                        echo $no_box != NULL ? $no_box[0]['no_box'] : '';
+                                        ?></td>
                                         <td class="text-center"><?php echo $row['idbs'] ?></td>
                                         <td class="text-center"><?php echo $row['nus'] ?></td>
                                         <td><?php echo $row['nama_krt'] ?></td>
